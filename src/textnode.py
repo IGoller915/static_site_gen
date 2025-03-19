@@ -1,5 +1,6 @@
 from enum import Enum
 from htmlnode import *
+import re
 
 class TextType(Enum):
     TEXT = "text"
@@ -40,5 +41,4 @@ def text_node_to_html_node(text_node):
         case _:
             raise Exception("invalid text type")
         
-
-                
+         
