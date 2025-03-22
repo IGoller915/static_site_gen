@@ -1,4 +1,5 @@
 from textnode import *
+from blocktype import *
 import re
 
 def split_nodes_delimiter(old_nodes, delimiter, text_type):
@@ -78,3 +79,23 @@ def text_to_textnodes(text):
     image = split_nodes_image(code)
     link = split_nodes_link(image)
     return link
+
+def markdown_to_blocks(markdown):
+    split_markdown = markdown.split("\n\n")
+    blocks = [block.strip() for block in split_markdown]
+    final_blocks = [block for block in blocks if re.search(r"\w", block)]
+    return final_blocks
+
+def block_to_blocktype(block):
+    if bool(re.search(r"^#{1,6}", block)):
+        return BlockType.HEADING
+    if bool(re.search(r"^`{3}.*`{3}$", block)):
+        return BlockType.CODE
+    if bool(re.search(r"^>.*(\n>.*)*$", block)):
+        return BlockType.QUOTE
+    if bool(re.search(r"^-\s.*(\n-\s.*)*$", block)):
+        return BlockType.UNORDERED_LIST
+    if bool(re.search(r"^1\.\s.*(\n2\.\s.*)*(\n3\.\s.*)*(\n\d\.\s.*)*$", block)):
+        return BlockType.ORDERED_LIST
+    else:
+        return BlockType.PARAGRAPH

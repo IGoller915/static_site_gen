@@ -2,6 +2,7 @@ import unittest
 
 from textfunctions import *
 from textnode import *
+from blocktype import *
 
 
 class TestTextNode(unittest.TestCase):
@@ -96,6 +97,66 @@ class TestTextNode(unittest.TestCase):
             TextNode(" and a ", TextType.TEXT),
             TextNode("link", TextType.LINK, "https://boot.dev"),
         ])
+
+    def test_markdown_to_blocks(self):
+        md = """
+This is **bolded** paragraph
+
+This is another paragraph with _italic_ text and `code` here
+This is the same paragraph on a new line
+
+- This is a list
+- with items
+"""
+        blocks = markdown_to_blocks(md)
+        self.assertEqual(
+            blocks,
+            [
+                "This is **bolded** paragraph",
+                "This is another paragraph with _italic_ text and `code` here\nThis is the same paragraph on a new line",
+                "- This is a list\n- with items",
+            ],
+        )
+
+    def test_markdown_to_blocks_too_many_newlines(self):
+        md = """
+This is **bolded** paragraph
+
+
+
+
+
+This is another paragraph with _italic_ text and `code` here
+This is the same paragraph on a new line
+
+- This is a list
+- with items
+"""
+        blocks = markdown_to_blocks(md)
+        self.assertEqual(
+            blocks,
+            [
+                "This is **bolded** paragraph",
+                "This is another paragraph with _italic_ text and `code` here\nThis is the same paragraph on a new line",
+                "- This is a list\n- with items",
+            ],
+        )
+
+    def test_block_to_blocktype(self):
+        head_block = "###Test"
+        code_block = "```Test```"
+        quote_block = ">Test\n>Test"
+        ordered_block = "1. Test\n2. Test"
+        unordered_block = "- Test\n- Test"
+        paragraph_block = "Test"
+        
+        self.assertEqual(block_to_blocktype(head_block), BlockType.HEADING)
+        self.assertEqual(block_to_blocktype(code_block), BlockType.CODE)
+        self.assertEqual(block_to_blocktype(quote_block), BlockType.QUOTE)
+        self.assertEqual(block_to_blocktype(ordered_block), BlockType.ORDERED_LIST)
+        self.assertEqual(block_to_blocktype(unordered_block), BlockType.UNORDERED_LIST)
+        self.assertEqual(block_to_blocktype(paragraph_block), BlockType.PARAGRAPH)
+
  
 
 if __name__ == "__main__":
