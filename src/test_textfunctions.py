@@ -5,7 +5,7 @@ from textnode import *
 from blocktype import *
 
 
-class TestTextNode(unittest.TestCase):
+class TestTextFunctions(unittest.TestCase):
     def test_one_node(self):
         node = TextNode("This is text with a `code block` word", TextType.TEXT)
         new_nodes = split_nodes_delimiter([node], "`", TextType.CODE)
@@ -149,7 +149,7 @@ This is the same paragraph on a new line
         ordered_block = "1. Test\n2. Test"
         unordered_block = "- Test\n- Test"
         paragraph_block = "Test"
-        
+
         self.assertEqual(block_to_blocktype(head_block), BlockType.HEADING)
         self.assertEqual(block_to_blocktype(code_block), BlockType.CODE)
         self.assertEqual(block_to_blocktype(quote_block), BlockType.QUOTE)

@@ -77,8 +77,8 @@ def text_to_textnodes(text):
     italic = split_nodes_delimiter(bold, "_", TextType.ITALIC)
     code = split_nodes_delimiter(italic, "`", TextType.CODE)
     image = split_nodes_image(code)
-    link = split_nodes_link(image)
-    return link
+    parsed_text_nodes = split_nodes_link(image)
+    return parsed_text_nodes
 
 def markdown_to_blocks(markdown):
     split_markdown = markdown.split("\n\n")
@@ -89,7 +89,7 @@ def markdown_to_blocks(markdown):
 def block_to_blocktype(block):
     if bool(re.search(r"^#{1,6}", block)):
         return BlockType.HEADING
-    if bool(re.search(r"^`{3}.*`{3}$", block)):
+    if bool(re.search(r"^```[\s\S]+?```$", block)):
         return BlockType.CODE
     if bool(re.search(r"^>.*(\n>.*)*$", block)):
         return BlockType.QUOTE
