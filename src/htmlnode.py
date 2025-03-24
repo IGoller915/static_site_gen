@@ -34,6 +34,10 @@ class LeafNode(HTMLNode):
             raise ValueError("leaf node must have value")
         if self.tag == None:
             return self.value
+        if self.tag == "a":
+            return f"<a href={self.props['href']}>{self.value}</a>"
+        if self.tag == "img":
+            return f"<img src={self.props['source']} alt={self.props['alt']} />"
         return f"<{self.tag}>{self.value}</{self.tag}>"
     
 class ParentNode(HTMLNode):

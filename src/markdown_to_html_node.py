@@ -50,12 +50,3 @@ def text_to_children(text):
     html_nodes_list = [text_node_to_html_node(text_node) for text_node in text_nodes_list]
     return html_nodes_list  
 
-
-# md = """
-# ```
-# This is text that _should_ remain
-# the **same** even with inline stuff
-# ```
-# """
-
-# print(markdown_to_html_node(md).to_html())
