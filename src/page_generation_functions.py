@@ -23,7 +23,7 @@ def generate_page(from_path, template_path, basepath):
     title_template = template_text.replace("{{ Title }}", title)
     # basepath_links_html = title_template.replace("href=\"/", f"href=\"{basepath}").replace("src=\"/", f"src=\"{basepath}")
     replace_content_html = title_template.replace("{{ Content }}", content_html_text)
-    final_html = replace_content_html.replace("href=/", f"href={basepath}").replace("src=/", f"src={basepath}")
+    final_html = replace_content_html.replace("href=/", f"href={basepath}").replace("href=\"/", f"href=\"{basepath}").replace("src=/", f"src={basepath}")
     output_file = open(dest_file_path, "w")
     output_file.write(final_html)
 
